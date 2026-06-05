@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>メンタルローテーション</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F5F3EE;
+  --surface: #FFFFFF;
+  --border: #E0DDD7;
+  --text: #1A1A18;
+  --text-muted: #7A7A72;
+  --green: #1D9E75;
+  --green-light: #E1F5EE;
+  --green-dark: #0F6E56;
+  --red: #E24B4A;
+  --red-light: #FDECEA;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  min-height: 100vh;
+}
+
+/* ===== SCREENS ===== */
+.screen { display: none; animation: fadeIn 0.2s ease; }
+.screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== HOME ===== */
+.home-logo {
+  text-align: center;
+  padding: 32px 0 28px;
+}
+.home-logo-mark {
+  width: 64px; height: 64px;
+  background: var(--green);
+  border-radius: 18px;
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.home-logo-mark svg { width: 36px; height: 36px; }
+.home-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.home-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.home-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: transform 0.12s, background 0.12s, border-color 0.12s;
+  text-align: left;
+}
+.home-btn:active { transform: scale(0.97); }
+.home-btn.primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  font-size: 19px;
+  padding: 22px 20px;
+}
+.home-btn.primary:hover { background: var(--green-dark); }
+.home-btn:hover:not(.primary) { background: #F0EEE9; }
+.btn-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.06);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+.home-btn.primary .btn-icon { background: rgba(255,255,255,0.2); }
+
+/* ===== HEADER ===== */
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.back-btn {
+  width: 40px; height: 40px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+.back-btn:hover { background: #F0EEE9; }
+.screen-title { font-size: 18px; font-weight: 700; }
+
+/* ===== SETTINGS ===== */
+.settings-section {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.settings-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.settings-row:last-child { border-bottom: none; }
+.settings-row:active { background: #F5F3EE; }
+.row-label { font-size: 16px; font-weight: 500; }
+.row-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* Toggle */
+.toggle-wrap { flex-shrink: 0; }
+.toggle {
+  width: 48px; height: 28px;
+  border-radius: 14px;
+  background: #D5D3CE;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: block;
+}
+.toggle.on { background: var(--green); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: left 0.2s cubic-bezier(.34,1.56,.64,1);
+}
+.toggle.on::after { left: 23px; }
+
+/* Pill radio */
+.pill-group { display: flex; gap: 8px; flex-wrap: wrap; padding: 14px 16px; }
+.pill {
+  padding: 9px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pill.on { background: var(--green); border-color: var(--green); color: #fff; }
+
+.save-btn {
+  width: 100%;
+  padding: 18px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--green);
+  color: #fff;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s, transform 0.12s;
+}
+.save-btn:hover { background: var(--green-dark); }
+.save-btn:active { transform: scale(0.98); }
+
+/* ===== TASK SCREEN ===== */
+.task-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.task-exit {
+  padding: 8px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+}
+.task-exit:active { background: #F0EEE9; }
+.task-counter { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+.timer-badge {
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: var(--red-light);
+  color: var(--red);
+  font-size: 15px;
+  font-weight: 700;
+  display: none;
+}
+.timer-badge.urgent { animation: pulse-red 0.5s infinite alternate; }
+@keyframes pulse-red { from { background: var(--red-light); } to { background: #fbc4c3; } }
+
+.progress-track {
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.sample-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.sample-card-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.instruction-bar {
+  background: var(--green-light);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin-bottom: 16px;
+}
+
+/* Choice grid */
+.choices { display: grid; gap: 10px; }
+.choices.c2 { grid-template-columns: 1fr 1fr; }
+.choices.c3 { grid-template-columns: 1fr 1fr 1fr; }
+.choices.c4 { grid-template-columns: 1fr 1fr; }
+
+.choice {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.12s;
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+}
+.choice:active { transform: scale(0.95); }
+.choice:hover:not(.disabled) { border-color: #aaa; }
+.choice-alpha { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+
+/* Feedback states */
+.choice.correct {
+  border: 4px solid var(--green) !important;
+  background: var(--green-light);
+  animation: bounce-in 0.35s cubic-bezier(.34,1.56,.64,1);
+}
+.choice.wrong {
+  border: 4px solid var(--red) !important;
+  background: var(--red-light);
+  animation: shake 0.45s ease;
+}
+@keyframes bounce-in {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.09); }
+  70%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-10px); }
+  40%     { transform: translateX(10px); }
+  60%     { transform: translateX(-7px); }
+  80%     { transform: translateX(7px); }
+}
+
+/* Ripple */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple-anim 0.6s ease-out forwards;
+}
+.ripple.green { background: rgba(29,158,117,0.35); }
+.ripple.red   { background: rgba(226,75,74,0.35); }
+@keyframes ripple-anim {
+  to { transform: scale(4.5); opacity: 0; }
+}
+
+/* FB バナー（正解・不正解）*/
+.fb-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  transform: translateY(-100%);
+  transition: transform 0.22s cubic-bezier(.34,1.3,.64,1);
+  pointer-events: none;
+}
+.fb-banner.show { transform: translateY(0); }
+.fb-banner.ok { background: var(--green); color: #fff; }
+.fb-banner.ng { background: var(--red);   color: #fff; }
+.fb-banner-icon { font-size: 26px; }
+
+/* 見本エリアの「重ね合わせ中」ラベル */
+.overlay-label {
+  position: absolute;
+  bottom: -22px; left: 0; right: 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--green);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.overlay-label.show { opacity: 1; }
+
+/* Result stamp（選択肢ボタン内） */
+.result-stamp {
+  position: absolute;
+  top: 6px; right: 8px;
+  font-size: 22px;
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transform: scale(0);
+}
+.result-stamp.show {
+  animation: stamp-pop 0.28s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes stamp-pop {
+  0%   { opacity:0; transform: scale(0) rotate(-20deg); }
+  60%  { opacity:1; transform: scale(1.2) rotate(4deg); }
+  100% { opacity:1; transform: scale(1) rotate(0deg); }
+}
+.result-stamp.ok { color: var(--green); }
+.result-stamp.ng { color: var(--red); }
+
+.choice.disabled { cursor: default; pointer-events: none; }
+
+/* ===== END SCREEN ===== */
+.end-hero {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 20px 24px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.end-pct {
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: 6px;
+  animation: count-up 0.6s ease;
+}
+@keyframes count-up { from { opacity:0; transform: scale(0.6); } to { opacity:1; transform: scale(1); } }
+.end-fraction { font-size: 16px; color: var(--text-muted); }
+.end-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+.stat-card {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+.stat-val { font-size: 26px; font-weight: 700; }
+.stat-lbl { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+.history-block {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.history-head {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.history-row {
+  display: flex;
+  align-items: center;
+  padding: 11px 16px;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.history-row:last-child { border-bottom: none; }
+.h-date { color: var(--text-muted); width: 48px; flex-shrink: 0; }
+.h-bar { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.h-fill { height: 100%; background: var(--green); border-radius: 3px; }
+.h-pct { font-weight: 700; width: 44px; text-align: right; flex-shrink: 0; }
+
+.retry-btn {
+  width: 100%;
+  padding: 20px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--green);
+  color: #fff;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+  margin-bottom: 10px;
+}
+.retry-btn:hover { background: var(--green-dark); }
+.retry-btn:active { transform: scale(0.97); }
+.home-link-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.home-link-btn:hover { background: #F0EEE9; }
+
+/* ===== RESULTS SCREEN (before task) ===== */
+.empty-state {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 48px 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-msg { font-size: 16px; }
+.empty-sub { font-size: 13px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ===== HOME ===== -->
+<div id="screen-home" class="screen active">
+  <div class="home-logo">
+    <div class="home-logo-mark">
+      <svg viewBox="0 0 36 36" fill="none">
+        <rect x="6" y="6" width="10" height="18" rx="2" fill="white" opacity="0.9"/>
+        <rect x="6" y="6" width="18" height="10" rx="2" fill="white"/>
+        <rect x="20" y="12" width="10" height="18" rx="2" fill="white" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="home-title">メンタルローテーション</div>
+    <div class="home-sub">視空間認知・空間把握トレーニング</div>
+  </div>
+
+  <button class="home-btn primary" onclick="goTask()">
+    <div class="btn-icon">▶</div>
+    はじめる
+  </button>
+  <button class="home-btn" onclick="show('level')">
+    <div class="btn-icon">⬛</div>
+    レベル設定
+  </button>
+  <button class="home-btn" onclick="show('settings')">
+    <div class="btn-icon">☑</div>
+    出題設定
+  </button>
+  <button class="home-btn" onclick="show('results')">
+    <div class="btn-icon">📊</div>
+    成績
+  </button>
+</div>
+
+<!-- ===== LEVEL ===== -->
+<div id="screen-level" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="show('home')">←</button>
+    <span class="screen-title">レベル設定</span>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-label">レベルを選ぶ</div>
+    <div class="pill-group" id="level-pills">
+      <button class="pill on" onclick="setLevel(1,this)">レベル1</button>
+      <button class="pill" onclick="setLevel(2,this)">レベル2</button>
+      <button class="pill" onclick="setLevel(3,this)">レベル3</button>
+      <button class="pill" onclick="setLevel(4,this)">レベル4</button>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-section-label">内容</div>
+    <div id="level-desc" class="settings-row" style="display:block; cursor:default;">
+      <div class="row-label" id="level-desc-title">レベル1 — 入門</div>
+      <div class="row-desc" id="level-desc-body">2D図形 ／ 0°・90°回転 ／ 2択 ／ 鏡像なし</div>
+    </div>
+  </div>
+  <button class="save-btn" onclick="applyLevel(); show('home')">設定を保存する</button>
+</div>
+
+<!-- ===== SETTINGS ===== -->
+<div id="screen-settings" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="show('home')">←</button>
+    <span class="screen-title">出題設定</span>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-label">回転角度</div>
+    <div class="settings-row" onclick="tog('rot0')">
+      <div><div class="row-label">0°（正位置）</div></div>
+      <button class="toggle on" id="t-rot0"></button>
+    </div>
+    <div class="settings-row" onclick="tog('rot90')">
+      <div><div class="row-label">90°回転</div></div>
+      <button class="toggle on" id="t-rot90"></button>
+    </div>
+    <div class="settings-row" onclick="tog('rot180')">
+      <div><div class="row-label">180°回転</div></div>
+      <button class="toggle on" id="t-rot180"></button>
+    </div>
+    <div class="settings-row" onclick="tog('rot270')">
+      <div><div class="row-label">270°回転</div></div>
+      <button class="toggle" id="t-rot270"></button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-label">ダミーの種類</div>
+    <div class="settings-row" onclick="tog('mirror')">
+      <div><div class="row-label">鏡像ダミーを含める</div><div class="row-desc">左右反転した同じ形</div></div>
+      <button class="toggle on" id="t-mirror"></button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-label">選択肢の数</div>
+    <div class="pill-group" id="choice-pills">
+      <button class="pill" onclick="setCfg('choices',2,this)">2択</button>
+      <button class="pill on" onclick="setCfg('choices',3,this)">3択</button>
+      <button class="pill" onclick="setCfg('choices',4,this)">4択</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-label">問題数</div>
+    <div class="pill-group" id="count-pills">
+      <button class="pill on" onclick="setCfg('count',10,this)">10問</button>
+      <button class="pill" onclick="setCfg('count',20,this)">20問</button>
+      <button class="pill" onclick="setCfg('count',30,this)">30問</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-label">その他</div>
+    <div class="settings-row" onclick="tog('timelimit')">
+      <div><div class="row-label">時間制限（10秒）</div><div class="row-desc">レベル4推奨</div></div>
+      <button class="toggle" id="t-timelimit"></button>
+    </div>
+  </div>
+
+  <button class="save-btn" onclick="show('home')">設定を保存する</button>
+</div>
+
+<!-- FB バナー -->
+<div class="fb-banner" id="fb-banner">
+  <span class="fb-banner-icon" id="fb-icon"></span>
+  <span id="fb-text"></span>
+</div>
+
+<!-- ===== TASK ===== -->
+<div id="screen-task" class="screen">
+  <div class="task-topbar">
+    <button class="task-exit" onclick="show('home')">✕ 終了</button>
+    <span class="task-counter" id="task-counter">1 / 10</span>
+    <div class="timer-badge" id="timer-badge">10秒</div>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="prog" style="width:0%"></div>
+  </div>
+  <div class="sample-card">
+    <div class="sample-card-label">見本</div>
+    <div style="position:relative;width:130px;height:130px;margin:0 auto;">
+      <canvas id="cvs-sample" width="130" height="130" style="display:block;position:absolute;top:0;left:0;"></canvas>
+      <canvas id="cvs-overlay" width="130" height="130" style="display:block;position:absolute;top:0;left:0;opacity:0;pointer-events:none;"></canvas>
+      <div class="overlay-label" id="overlay-label">↑ 正解の形を重ねています</div>
+    </div>
+  </div>
+  <div class="instruction-bar">同じ形をえらんでください</div>
+  <div class="choices" id="choices-grid"></div>
+</div>
+
+<!-- ===== END ===== -->
+<div id="screen-end" class="screen">
+  <div class="screen-header">
+    <div class="screen-title">今日の結果</div>
+  </div>
+  <div class="end-hero">
+    <div class="end-pct" id="end-pct">80%</div>
+    <div class="end-fraction" id="end-frac">10問中 8問正解</div>
+    <div class="end-stats">
+      <div class="stat-card">
+        <div class="stat-val" id="end-correct">8</div>
+        <div class="stat-lbl">正解数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="end-time">4.2秒</div>
+        <div class="stat-lbl">平均時間</div>
+      </div>
+    </div>
+  </div>
+  <div class="history-block" id="hist-block" style="display:none;">
+    <div class="history-head">最近の記録</div>
+    <div id="hist-rows"></div>
+  </div>
+  <button class="retry-btn" onclick="goTask()">もう一度やる</button>
+  <button class="home-link-btn" onclick="show('home')">ホームにもどる</button>
+</div>
+
+<!-- ===== RESULTS ===== -->
+<div id="screen-results" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="show('home')">←</button>
+    <span class="screen-title">成績</span>
+  </div>
+  <div id="results-content"></div>
+</div>
+
+</div><!-- .app -->
+
+<script>
+// ======================================================
+// CONFIG
+// ======================================================
+const cfg = {
+  level:1, rot0:true, rot90:true, rot180:true, rot270:false,
+  mirror:true, choices:3, count:10, timelimit:false
+};
+let history = [];
+
+// ======================================================
+// SHAPES — 高齢者・認知症対応・極端非対称版
+// 基準：
+//  ① 「ほぼ四角形」「ほぼ正方形」に見える形は全廃
+//  ② 形のカテゴリが一目で違う（縦長/横長/L字/くし/階段/稲妻）
+//  ③ 左右の重心が極端にずれている
+//  ④ 4方向回転で全て一意（対称軸なし）
+// ======================================================
+const SHAPE_DEFS = [
+
+  // ── 縦長L字（縦棒が細長く・横棒が下右に短く突き出る）──
+  { id:'L',  group:'A', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.20,s*.08); ctx.lineTo(s*.20,s*.92);
+    ctx.lineTo(s*.80,s*.92); ctx.lineTo(s*.80,s*.72);
+    ctx.lineTo(s*.40,s*.72); ctx.lineTo(s*.40,s*.08);
+    ctx.closePath();
+  }},
+
+  // ── 横長L字（横棒が主体・縦棒が右上に短く立つ）──
+  { id:'HL', group:'A', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.08,s*.60); ctx.lineTo(s*.08,s*.92);
+    ctx.lineTo(s*.92,s*.92); ctx.lineTo(s*.92,s*.60);
+    ctx.lineTo(s*.60,s*.60); ctx.lineTo(s*.60,s*.08);
+    ctx.lineTo(s*.38,s*.08); ctx.lineTo(s*.38,s*.60);
+    ctx.closePath();
+  }},
+
+  // ── かぎ形（細い縦棒＋上右突起＋下右横棒）──
+  { id:'HK', group:'A', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.18,s*.08); ctx.lineTo(s*.70,s*.08);
+    ctx.lineTo(s*.70,s*.30); ctx.lineTo(s*.38,s*.30);
+    ctx.lineTo(s*.38,s*.70); ctx.lineTo(s*.82,s*.70);
+    ctx.lineTo(s*.82,s*.92); ctx.lineTo(s*.18,s*.92);
+    ctx.closePath();
+  }},
+
+  // ── 2段階段（左下大・右上小、幅比2:1）──
+  { id:'ST', group:'B', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.08,s*.50); ctx.lineTo(s*.08,s*.92);
+    ctx.lineTo(s*.65,s*.92); ctx.lineTo(s*.65,s*.40);
+    ctx.lineTo(s*.92,s*.40); ctx.lineTo(s*.92,s*.08);
+    ctx.lineTo(s*.38,s*.08); ctx.lineTo(s*.38,s*.50);
+    ctx.closePath();
+  }},
+
+  // ── クランク（左ブロック横長・右ブロック縦長、幅3:1）──
+  { id:'CR', group:'B', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.08,s*.08); ctx.lineTo(s*.72,s*.08);
+    ctx.lineTo(s*.72,s*.44); ctx.lineTo(s*.92,s*.44);
+    ctx.lineTo(s*.92,s*.92); ctx.lineTo(s*.28,s*.92);
+    ctx.lineTo(s*.28,s*.56); ctx.lineTo(s*.08,s*.56);
+    ctx.closePath();
+  }},
+
+  // ── 3段階段（各段の幅：大/中/小、極端に違う）──
+  { id:'S3', group:'B', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.08,s*.68); ctx.lineTo(s*.08,s*.92);
+    ctx.lineTo(s*.44,s*.92); ctx.lineTo(s*.44,s*.46);
+    ctx.lineTo(s*.64,s*.46); ctx.lineTo(s*.64,s*.22);
+    ctx.lineTo(s*.92,s*.22); ctx.lineTo(s*.92,s*.08);
+    ctx.lineTo(s*.52,s*.08); ctx.lineTo(s*.52,s*.30);
+    ctx.lineTo(s*.30,s*.30); ctx.lineTo(s*.30,s*.68);
+    ctx.closePath();
+  }},
+
+  // ── F字（縦棒が細く左・横2本が大きく右に伸びる）──
+  { id:'F',  group:'C', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.14,s*.08); ctx.lineTo(s*.14,s*.92);
+    ctx.lineTo(s*.36,s*.92); ctx.lineTo(s*.36,s*.58);
+    ctx.lineTo(s*.72,s*.58); ctx.lineTo(s*.72,s*.40);
+    ctx.lineTo(s*.36,s*.40); ctx.lineTo(s*.36,s*.26);
+    ctx.lineTo(s*.92,s*.26); ctx.lineTo(s*.92,s*.08);
+    ctx.closePath();
+  }},
+
+  // ── 逆F字（縦棒が右・横棒が左に大きく伸びる）──
+  { id:'RF', group:'C', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.86,s*.08); ctx.lineTo(s*.86,s*.92);
+    ctx.lineTo(s*.64,s*.92); ctx.lineTo(s*.64,s*.62);
+    ctx.lineTo(s*.08,s*.62); ctx.lineTo(s*.08,s*.44);
+    ctx.lineTo(s*.64,s*.44); ctx.lineTo(s*.64,s*.26);
+    ctx.lineTo(s*.28,s*.26); ctx.lineTo(s*.28,s*.08);
+    ctx.closePath();
+  }},
+
+  // ── くし形（細い縦棒左＋横2本が右に長く伸びる）──
+  { id:'KS', group:'C', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.14,s*.08); ctx.lineTo(s*.14,s*.92);
+    ctx.lineTo(s*.36,s*.92); ctx.lineTo(s*.36,s*.62);
+    ctx.lineTo(s*.86,s*.62); ctx.lineTo(s*.86,s*.44);
+    ctx.lineTo(s*.36,s*.44); ctx.lineTo(s*.36,s*.08);
+    ctx.closePath();
+  }},
+
+  // ── J字（細い右縦棒＋底横棒が左に大きく張り出す）──
+  { id:'J',  group:'A', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.62,s*.08); ctx.lineTo(s*.84,s*.08);
+    ctx.lineTo(s*.84,s*.68); ctx.lineTo(s*.72,s*.68);
+    ctx.lineTo(s*.72,s*.92); ctx.lineTo(s*.16,s*.92);
+    ctx.lineTo(s*.16,s*.68); ctx.lineTo(s*.48,s*.68);
+    ctx.lineTo(s*.48,s*.08);
+    ctx.closePath();
+  }},
+
+  // ── 段付き六角（L字＋右上に大きな段・輪郭が複雑）──
+  { id:'SH', group:'D', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.10,s*.10); ctx.lineTo(s*.52,s*.10);
+    ctx.lineTo(s*.52,s*.38); ctx.lineTo(s*.90,s*.38);
+    ctx.lineTo(s*.90,s*.90); ctx.lineTo(s*.46,s*.90);
+    ctx.lineTo(s*.46,s*.62); ctx.lineTo(s*.10,s*.62);
+    ctx.closePath();
+  }},
+
+  // ── 凸形（土台が横長・突起が右寄りに偏り）──
+  { id:'CV', group:'D', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.08,s*.58); ctx.lineTo(s*.08,s*.92);
+    ctx.lineTo(s*.92,s*.92); ctx.lineTo(s*.92,s*.58);
+    ctx.lineTo(s*.68,s*.58); ctx.lineTo(s*.68,s*.08);
+    ctx.lineTo(s*.42,s*.08); ctx.lineTo(s*.42,s*.58);
+    ctx.closePath();
+  }},
+
+  // ── 非対称H（横棒が上1/3・左縦棒が細く右縦棒が太い）──
+  { id:'AH', group:'E', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.10,s*.10); ctx.lineTo(s*.32,s*.10);
+    ctx.lineTo(s*.32,s*.32); ctx.lineTo(s*.68,s*.32);
+    ctx.lineTo(s*.68,s*.10); ctx.lineTo(s*.90,s*.10);
+    ctx.lineTo(s*.90,s*.90); ctx.lineTo(s*.68,s*.90);
+    ctx.lineTo(s*.68,s*.50); ctx.lineTo(s*.32,s*.50);
+    ctx.lineTo(s*.32,s*.90); ctx.lineTo(s*.10,s*.90);
+    ctx.closePath();
+  }},
+
+  // ── 稲妻（太く・上右→下左へ斜め・幅比2:1）──
+  { id:'LN', group:'E', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.44,s*.08); ctx.lineTo(s*.92,s*.08);
+    ctx.lineTo(s*.56,s*.50); ctx.lineTo(s*.82,s*.50);
+    ctx.lineTo(s*.24,s*.92); ctx.lineTo(s*.08,s*.92);
+    ctx.lineTo(s*.44,s*.50); ctx.lineTo(s*.18,s*.50);
+    ctx.closePath();
+  }},
+
+  // ── L＋段（逆T字の足の下に右向き突起）──
+  { id:'LS', group:'E', draw:(ctx,s)=>{
+    ctx.beginPath();
+    ctx.moveTo(s*.10,s*.10); ctx.lineTo(s*.90,s*.10);
+    ctx.lineTo(s*.90,s*.36); ctx.lineTo(s*.56,s*.36);
+    ctx.lineTo(s*.56,s*.58); ctx.lineTo(s*.78,s*.58);
+    ctx.lineTo(s*.78,s*.90); ctx.lineTo(s*.28,s*.90);
+    ctx.lineTo(s*.28,s*.36); ctx.lineTo(s*.10,s*.36);
+    ctx.closePath();
+  }},
+];
+
+// レベル別に使用形状を制限
+function getShapePool() {
+  if (cfg.level === 1) {
+    // 入門：最もシルエットが大きく違う6形
+    return SHAPE_DEFS.filter(d => ['L','ST','F','CV','SH','J'].includes(d.id));
+  }
+  if (cfg.level === 2) {
+    // 基礎：複雑形（AH・LN・LS）を除く
+    return SHAPE_DEFS.filter(d => !['AH','LN','LS'].includes(d.id));
+  }
+  // レベル3・4：全形
+  return SHAPE_DEFS;
+}
+// ======================================================
+// DRAW
+// ======================================================
+function drawShape(canvas, def, angleDeg, flipH, color='#1A1A18') {
+  const ctx = canvas.getContext('2d');
+  const s = canvas.width;
+  ctx.clearRect(0,0,s,s);
+  ctx.save();
+  ctx.translate(s/2, s/2);
+  ctx.rotate(angleDeg * Math.PI/180);
+  if (flipH) ctx.scale(-1,1);
+  ctx.translate(-s/2, -s/2);
+  ctx.fillStyle = color;
+  def.draw(ctx, s);
+  ctx.fill();
+  ctx.restore();
+}
+
+// ======================================================
+// STATE
+// ======================================================
+let ts = { q:0, correct:0, total:10, times:[], qStart:0, timerInterval:null, timeLeft:10, answered:false };
+let currentQ = null;
+
+// ======================================================
+// NAVIGATION
+// ======================================================
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  if (id==='results') renderResultsScreen();
+}
+
+function goTask() {
+  ts = { q:0, correct:0, total:cfg.count, times:[], qStart:0, timerInterval:null, timeLeft:10, answered:false };
+  show('task');
+  renderQ();
+}
+
+// ======================================================
+// SETTINGS
+// ======================================================
+function tog(key) {
+  cfg[key] = !cfg[key];
+  const el = document.getElementById('t-'+key);
+  if (el) el.classList.toggle('on', cfg[key]);
+}
+function setCfg(key,val,btn) {
+  cfg[key]=val;
+  btn.closest('.pill-group').querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function setLevel(lv,btn) {
+  cfg.level=lv;
+  document.getElementById('level-pills').querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const descs = {
+    1:['レベル1 — 入門','2D図形 ／ 0°・90°回転 ／ 2択 ／ 鏡像なし'],
+    2:['レベル2 — 基礎','2D図形 ／ 180°回転追加 ／ 3択 ／ 鏡像あり'],
+    3:['レベル3 — 標準','270°回転追加 ／ 4択 ／ 鏡像あり'],
+    4:['レベル4 — 応用','270°回転 ／ 4択 ／ 鏡像あり ／ 時間制限10秒']
+  };
+  document.getElementById('level-desc-title').textContent = descs[lv][0];
+  document.getElementById('level-desc-body').textContent = descs[lv][1];
+}
+function applyLevel() {
+  if (cfg.level===1){ cfg.rot90=true;cfg.rot180=false;cfg.rot270=false;cfg.choices=2;cfg.mirror=false;cfg.timelimit=false; }
+  else if (cfg.level===2){ cfg.rot90=true;cfg.rot180=true;cfg.rot270=false;cfg.choices=3;cfg.mirror=true;cfg.timelimit=false; }
+  else if (cfg.level===3){ cfg.rot90=true;cfg.rot180=true;cfg.rot270=true;cfg.choices=4;cfg.mirror=true;cfg.timelimit=false; }
+  else { cfg.rot90=true;cfg.rot180=true;cfg.rot270=true;cfg.choices=4;cfg.mirror=true;cfg.timelimit=true; }
+  syncToggles();
+}
+function syncToggles() {
+  ['rot0','rot90','rot180','rot270','mirror','timelimit'].forEach(k=>{
+    const el=document.getElementById('t-'+k);
+    if(el) el.classList.toggle('on',cfg[k]);
+  });
+}
+
+// ======================================================
+// QUESTION GENERATION
+// ======================================================
+function getAngles() {
+  const a=[];
+  if(cfg.rot0) a.push(0);
+  if(cfg.rot90) a.push(90);
+  if(cfg.rot180) a.push(180);
+  if(cfg.rot270) a.push(270);
+  return a.length ? a : [0,90];
+}
+function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function genQ() {
+  const angs = getAngles();
+  const pool = getShapePool();
+
+  // 正解形を選ぶ
+  const correctDef = rand(pool);
+
+  // 見本角度：ランダム
+  const sampleAngle = rand(angs);
+
+  // 正解角度：見本と必ず違う
+  const diffAngs = angs.filter(a => a !== sampleAngle);
+  const answerAngle = diffAngs.length > 0 ? rand(diffAngs) : sampleAngle;
+
+  // ダミー角度：見本・正解どちらとも違う角度を優先
+  function dummyAngle() {
+    const preferred = angs.filter(a => a !== sampleAngle && a !== answerAngle);
+    const fallback  = angs.filter(a => a !== answerAngle);
+    return preferred.length > 0 ? rand(preferred)
+         : fallback.length  > 0 ? rand(fallback)
+         : rand(angs);
+  }
+
+  // ダミー形プール：必ず別グループから選ぶ（重複なし）
+  const otherGrp = shuffle(pool.filter(d => d.group !== correctDef.group));
+
+  const correctIdx = Math.floor(Math.random() * cfg.choices);
+  const choices = [];
+  let dummyPtr = 0;
+  let mirrorUsed = false;
+
+  for (let i = 0; i < cfg.choices; i++) {
+    if (i === correctIdx) {
+      choices.push({ def: correctDef, angle: answerAngle, flip: false, correct: true });
+      continue;
+    }
+
+    // 鏡像ダミー（mirror ON・1問1個まで）：正解と同形・反転
+    const useMirror = cfg.mirror && !mirrorUsed && Math.random() < 0.4;
+
+    if (useMirror) {
+      mirrorUsed = true;
+      choices.push({ def: correctDef, angle: dummyAngle(), flip: true, correct: false });
+    } else if (dummyPtr < otherGrp.length) {
+      // 別グループの形（重複なし）
+      choices.push({ def: otherGrp[dummyPtr++], angle: dummyAngle(), flip: false, correct: false });
+    } else {
+      // fallback：鏡像で代替
+      choices.push({ def: correctDef, angle: dummyAngle(), flip: true, correct: false });
+    }
+  }
+
+  return { correctDef, sampleAngle, answerAngle, choices };
+}
+
+// ======================================================
+// TASK RENDER
+// ======================================================
+function renderQ() {
+  if (ts.q >= ts.total) { endTask(); return; }
+  ts.answered = false;
+  currentQ = genQ();
+
+  document.getElementById('task-counter').textContent = (ts.q+1)+' / '+ts.total;
+  document.getElementById('prog').style.width = (ts.q/ts.total*100)+'%';
+
+  // 見本
+  const sc = document.getElementById('cvs-sample');
+  drawShape(sc, currentQ.correctDef, currentQ.sampleAngle, false);
+
+  // 選択肢
+  const grid = document.getElementById('choices-grid');
+  grid.className = 'choices c'+(cfg.choices<=4?cfg.choices:'4');
+  grid.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  currentQ.choices.forEach((ch, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.setAttribute('data-idx', i);
+
+    const cvs = document.createElement('canvas');
+    const csize = cfg.choices <= 2 ? 110 : cfg.choices === 3 ? 85 : 80;
+    cvs.width = csize; cvs.height = csize;
+    cvs.style.cssText = 'display:block;';
+    drawShape(cvs, ch.def, ch.angle, ch.flip);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'choice-alpha';
+    lbl.textContent = labels[i];
+
+    btn.appendChild(cvs);
+    btn.appendChild(lbl);
+    btn.addEventListener('click', () => handleAnswer(ch, btn, i));
+    grid.appendChild(btn);
+  });
+
+  if (cfg.timelimit) startTimer();
+  ts.qStart = Date.now();
+}
+
+// ======================================================
+// ANSWER & FEEDBACK
+// ======================================================
+function handleAnswer(ch, btn, idx) {
+  if (ts.answered) return;
+  ts.answered = true;
+  if (ts.timerInterval) { clearInterval(ts.timerInterval); ts.timerInterval=null; }
+  document.getElementById('timer-badge').style.display = 'none';
+
+  const elapsed = (Date.now() - ts.qStart) / 1000;
+  ts.times.push(elapsed);
+  if (ch.correct) ts.correct++;
+
+  const allBtns = document.querySelectorAll('.choice');
+  allBtns.forEach(b => b.classList.add('disabled'));
+
+  // ① 選択ボタンのFB
+  fireRipple(btn, ch.correct);
+  btn.classList.add(ch.correct ? 'correct' : 'wrong');
+  addStamp(btn, ch.correct);
+
+  // ② 不正解時：正解ボタンも緑で明示
+  let correctChoice = ch.correct ? ch : null;
+  if (!ch.correct) {
+    currentQ.choices.forEach((c, i) => {
+      if (c.correct) {
+        allBtns[i].classList.add('correct');
+        correctChoice = c;
+      }
+    });
+  }
+
+  // ③ 上部バナー表示
+  showFBBanner(ch.correct);
+
+  // ④ 回転重ねアニメ（正解・不正解どちらも）
+  const delay = ch.correct ? 150 : 350;
+  setTimeout(() => overlayAnimation(correctChoice), delay);
+
+  // ⑤ 次の問題へ（アニメが終わってから）
+  ts.q++;
+  setTimeout(renderQ, 2400);
+}
+
+// 上部バナー
+function showFBBanner(isCorrect) {
+  const banner = document.getElementById('fb-banner');
+  const icon   = document.getElementById('fb-icon');
+  const text   = document.getElementById('fb-text');
+  banner.className = 'fb-banner ' + (isCorrect ? 'ok' : 'ng');
+  icon.textContent  = isCorrect ? '○' : '×';
+  text.textContent  = isCorrect ? '正解！' : '不正解';
+  // show
+  requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('show')));
+  // hide after 2s
+  setTimeout(() => {
+    banner.classList.remove('show');
+  }, 2000);
+}
+
+// 正解図形を見本に回転しながら重ねるアニメ
+function overlayAnimation(ch) {
+  if (!ch) return;
+  const ov    = document.getElementById('cvs-overlay');
+  const lbl   = document.getElementById('overlay-label');
+
+  const startAngle = ch.angle;              // 選択肢での向き
+  const endAngle   = currentQ.sampleAngle;  // 見本の向き（ここへ回転して重なる）
+
+  // 最短回転方向
+  let delta = endAngle - startAngle;
+  if (delta > 180)  delta -= 360;
+  if (delta < -180) delta += 360;
+
+  // フェードイン
+  ov.style.opacity = '0';
+  const FADE_IN = 180;   // ms
+  const ROTATE  = 900;   // ms  回転にかける時間
+  const HOLD    = 700;   // ms  重なったまま止める時間
+  const FADE_OUT= 300;   // ms
+
+  // --- フェードイン ---
+  const fadeInStart = performance.now();
+  function fadeIn(now) {
+    const t = Math.min((now - fadeInStart) / FADE_IN, 1);
+    ov.style.opacity = (t * 0.8).toString();
+    // 最初のフレームで開始角度の形を描く
+    drawShape(ov, ch.def, startAngle, ch.flip, '#1D9E75');
+    if (t < 1) requestAnimationFrame(fadeIn);
+    else startRotate();
+  }
+  requestAnimationFrame(fadeIn);
+
+  // --- 回転 ---
+  function startRotate() {
+    lbl.classList.add('show');
+    const rotStart = performance.now();
+    function rotate(now) {
+      const t = Math.min((now - rotStart) / ROTATE, 1);
+      // ease-in-out cubic
+      const ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+      const angle = startAngle + delta * ease;
+      drawShape(ov, ch.def, angle, ch.flip, '#1D9E75');
+      if (t < 1) requestAnimationFrame(rotate);
+      else holdAndFadeOut();
+    }
+    requestAnimationFrame(rotate);
+  }
+
+  // --- 重なって止まる → フェードアウト ---
+  function holdAndFadeOut() {
+    // 見本と同じ角度で描き直し（ピッタリ重なる）
+    drawShape(ov, ch.def, endAngle, ch.flip, '#1D9E75');
+    setTimeout(() => {
+      lbl.classList.remove('show');
+      const fadeStart = performance.now();
+      function fadeOut(now) {
+        const t = Math.min((now - fadeStart) / FADE_OUT, 1);
+        ov.style.opacity = (0.8 * (1 - t)).toString();
+        if (t < 1) requestAnimationFrame(fadeOut);
+        else ov.style.opacity = '0';
+      }
+      requestAnimationFrame(fadeOut);
+    }, HOLD);
+  }
+}
+
+function fireRipple(btn, isCorrect) {
+  const r = document.createElement('div');
+  r.className = 'ripple ' + (isCorrect ? 'green' : 'red');
+  const size = Math.max(btn.offsetWidth, btn.offsetHeight) * 1.8;
+  r.style.cssText = `width:${size}px;height:${size}px;left:${btn.offsetWidth/2-size/2}px;top:${btn.offsetHeight/2-size/2}px;`;
+  btn.appendChild(r);
+  r.addEventListener('animationend', () => r.remove());
+}
+
+function addStamp(btn, isCorrect) {
+  const s = document.createElement('div');
+  s.className = 'result-stamp ' + (isCorrect ? 'ok' : 'ng');
+  s.textContent = isCorrect ? '○' : '×';
+  btn.appendChild(s);
+  requestAnimationFrame(() => requestAnimationFrame(() => s.classList.add('show')));
+}
+
+// ======================================================
+// TIMER
+// ======================================================
+function startTimer() {
+  ts.timeLeft = 10;
+  const badge = document.getElementById('timer-badge');
+  badge.style.display = 'block';
+  badge.textContent = '10秒';
+  badge.classList.remove('urgent');
+  ts.timerInterval = setInterval(() => {
+    ts.timeLeft--;
+    badge.textContent = ts.timeLeft + '秒';
+    if (ts.timeLeft <= 3) badge.classList.add('urgent');
+    if (ts.timeLeft <= 0) {
+      clearInterval(ts.timerInterval); ts.timerInterval = null;
+      handleAnswer({ correct:false }, document.querySelectorAll('.choice')[0], 0);
+    }
+  }, 1000);
+}
+
+// ======================================================
+// END
+// ======================================================
+function endTask() {
+  const pct = Math.round(ts.correct / ts.total * 100);
+  const avg = ts.times.length ? (ts.times.reduce((a,b)=>a+b,0)/ts.times.length).toFixed(1) : '—';
+  const now = new Date();
+  history.unshift({ date:`${now.getMonth()+1}/${now.getDate()}`, pct, correct:ts.correct, total:ts.total, avg });
+  if (history.length > 7) history.pop();
+
+  document.getElementById('end-pct').textContent = pct + '%';
+  document.getElementById('end-frac').textContent = `${ts.total}問中 ${ts.correct}問正解`;
+  document.getElementById('end-correct').textContent = `${ts.correct}/${ts.total}`;
+  document.getElementById('end-time').textContent = avg + '秒';
+
+  const hb = document.getElementById('hist-block');
+  if (history.length > 1) {
+    hb.style.display = 'block';
+    const rows = document.getElementById('hist-rows');
+    rows.innerHTML = '';
+    history.forEach(h => {
+      const row = document.createElement('div');
+      row.className = 'history-row';
+      row.innerHTML = `<span class="h-date">${h.date}</span><div class="h-bar"><div class="h-fill" style="width:${h.pct}%"></div></div><span class="h-pct">${h.pct}%</span>`;
+      rows.appendChild(row);
+    });
+  } else hb.style.display = 'none';
+
+  show('end');
+}
+
+// ======================================================
+// RESULTS SCREEN
+// ======================================================
+function renderResultsScreen() {
+  const el = document.getElementById('results-content');
+  if (!history.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-msg">まだ記録がありません</div><div class="empty-sub">「はじめる」で訓練を開始してください</div></div>`;
+    return;
+  }
+  const r = history[0];
+  let histHTML = '';
+  if (history.length > 1) {
+    const rows = history.map(h=>`<div class="history-row"><span class="h-date">${h.date}</span><div class="h-bar"><div class="h-fill" style="width:${h.pct}%"></div></div><span class="h-pct">${h.pct}%</span></div>`).join('');
+    histHTML = `<div class="history-block"><div class="history-head">最近の記録</div>${rows}</div>`;
+  }
+  el.innerHTML = `
+    <div class="end-hero">
+      <div class="end-pct">${r.pct}%</div>
+      <div class="end-fraction">${r.total}問中 ${r.correct}問正解</div>
+      <div class="end-stats">
+        <div class="stat-card"><div class="stat-val">${r.correct}/${r.total}</div><div class="stat-lbl">正解数</div></div>
+        <div class="stat-card"><div class="stat-val">${r.avg}秒</div><div class="stat-lbl">平均時間</div></div>
+      </div>
+    </div>
+    ${histHTML}
+    <button class="retry-btn" onclick="goTask()">もう一度やる</button>
+  `;
+}
+</script>
+</body>
+</html>
