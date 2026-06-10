@@ -33,9 +33,9 @@ html, body {
 }
 
 .app {
-  max-width: 500px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 20px 16px;
+  padding: 28px 24px;
   min-height: 100vh;
 }
 
@@ -47,34 +47,34 @@ html, body {
 /* ===== HOME ===== */
 .home-logo {
   text-align: center;
-  padding: 32px 0 28px;
+  padding: 40px 0 36px;
 }
 .home-logo-mark {
-  width: 64px; height: 64px;
+  width: 88px; height: 88px;
   background: var(--green);
-  border-radius: 18px;
-  margin: 0 auto 14px;
+  border-radius: 24px;
+  margin: 0 auto 18px;
   display: flex; align-items: center; justify-content: center;
 }
-.home-logo-mark svg { width: 36px; height: 36px; }
-.home-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
-.home-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.home-logo-mark svg { width: 52px; height: 52px; }
+.home-title { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
+.home-sub { font-size: 17px; color: var(--text-muted); margin-top: 6px; }
 
 .home-btn {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 20px;
+  gap: 18px;
+  padding: 24px 26px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
   font-family: inherit;
-  font-size: 17px;
+  font-size: 22px;
   font-weight: 500;
   color: var(--text);
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   transition: transform 0.12s, background 0.12s, border-color 0.12s;
   text-align: left;
 }
@@ -83,18 +83,18 @@ html, body {
   background: var(--green);
   border-color: var(--green);
   color: #fff;
-  font-size: 19px;
-  padding: 22px 20px;
+  font-size: 26px;
+  padding: 30px 26px;
 }
 .home-btn.primary:hover { background: var(--green-dark); }
 .home-btn:hover:not(.primary) { background: #F0EEE9; }
 .btn-icon {
-  width: 36px; height: 36px;
-  border-radius: 10px;
+  width: 48px; height: 48px;
+  border-radius: 12px;
   background: rgba(0,0,0,0.06);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  font-size: 18px;
+  font-size: 24px;
 }
 .home-btn.primary .btn-icon { background: rgba(255,255,255,0.2); }
 
@@ -102,22 +102,22 @@ html, body {
 .screen-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 16px;
+  margin-bottom: 28px;
 }
 .back-btn {
-  width: 40px; height: 40px;
+  width: 52px; height: 52px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  font-size: 24px;
   flex-shrink: 0;
   transition: background 0.12s;
 }
 .back-btn:hover { background: #F0EEE9; }
-.screen-title { font-size: 18px; font-weight: 700; }
+.screen-title { font-size: 24px; font-weight: 700; }
 
 /* ===== SETTINGS ===== */
 .settings-section {
@@ -128,33 +128,33 @@ html, body {
   margin-bottom: 16px;
 }
 .settings-section-label {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--text-muted);
   text-transform: uppercase;
-  padding: 12px 16px 8px;
+  padding: 14px 20px 10px;
   border-bottom: 1px solid var(--border);
 }
 .settings-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 16px;
+  padding: 20px 20px;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   transition: background 0.1s;
 }
 .settings-row:last-child { border-bottom: none; }
 .settings-row:active { background: #F5F3EE; }
-.row-label { font-size: 16px; font-weight: 500; }
-.row-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.row-label { font-size: 20px; font-weight: 500; }
+.row-desc { font-size: 15px; color: var(--text-muted); margin-top: 3px; }
 
 /* Toggle */
 .toggle-wrap { flex-shrink: 0; }
 .toggle {
-  width: 48px; height: 28px;
-  border-radius: 14px;
+  width: 60px; height: 34px;
+  border-radius: 17px;
   background: #D5D3CE;
   border: none;
   position: relative;
@@ -166,24 +166,24 @@ html, body {
 .toggle::after {
   content: '';
   position: absolute;
-  top: 3px; left: 3px;
-  width: 22px; height: 22px;
+  top: 4px; left: 4px;
+  width: 26px; height: 26px;
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,0,0,0.18);
   transition: left 0.2s cubic-bezier(.34,1.56,.64,1);
 }
-.toggle.on::after { left: 23px; }
+.toggle.on::after { left: 30px; }
 
 /* Pill radio */
-.pill-group { display: flex; gap: 8px; flex-wrap: wrap; padding: 14px 16px; }
+.pill-group { display: flex; gap: 10px; flex-wrap: wrap; padding: 18px 20px; }
 .pill {
-  padding: 9px 20px;
+  padding: 12px 26px;
   border: 1.5px solid var(--border);
   border-radius: 100px;
   background: var(--surface);
   font-family: inherit;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--text-muted);
   cursor: pointer;
@@ -193,16 +193,16 @@ html, body {
 
 .save-btn {
   width: 100%;
-  padding: 18px;
+  padding: 22px;
   border-radius: var(--radius);
   border: none;
   background: var(--green);
   color: #fff;
   font-family: inherit;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 700;
   cursor: pointer;
-  margin-top: 8px;
+  margin-top: 10px;
   transition: background 0.15s, transform 0.12s;
 }
 .save-btn:hover { background: var(--green-dark); }
@@ -213,26 +213,26 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 .task-exit {
-  padding: 8px 14px;
+  padding: 12px 20px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 18px;
   cursor: pointer;
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 8px;
 }
 .task-exit:active { background: #F0EEE9; }
-.task-counter { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+.task-counter { font-size: 20px; color: var(--text-muted); font-weight: 500; }
 .timer-badge {
-  padding: 6px 14px;
+  padding: 10px 20px;
   border-radius: 100px;
   background: var(--red-light);
   color: var(--red);
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
   display: none;
 }
@@ -257,12 +257,12 @@ html, body {
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 20px;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 .sample-card-label {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--text-muted);
@@ -273,16 +273,16 @@ html, body {
 .instruction-bar {
   background: var(--green-light);
   border-radius: var(--radius-sm);
-  padding: 12px 16px;
+  padding: 16px 20px;
   text-align: center;
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--green-dark);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 /* Choice grid */
-.choices { display: grid; gap: 10px; }
+.choices { display: grid; gap: 14px; }
 .choices.c2 { grid-template-columns: 1fr 1fr; }
 .choices.c3 { grid-template-columns: 1fr 1fr 1fr; }
 .choices.c4 { grid-template-columns: 1fr 1fr; }
@@ -291,20 +291,20 @@ html, body {
   background: var(--surface);
   border: 2px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px 8px 10px;
+  padding: 16px 10px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   cursor: pointer;
   transition: border-color 0.15s, transform 0.12s;
   position: relative;
   overflow: hidden;
-  min-height: 120px;
+  min-height: 160px;
 }
 .choice:active { transform: scale(0.95); }
 .choice:hover:not(.disabled) { border-color: #aaa; }
-.choice-alpha { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+.choice-alpha { font-size: 18px; font-weight: 700; color: var(--text-muted); }
 
 /* Feedback states */
 .choice.correct {
@@ -353,9 +353,9 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 20px;
-  font-size: 20px;
+  gap: 14px;
+  padding: 20px 24px;
+  font-size: 28px;
   font-weight: 900;
   letter-spacing: 0.02em;
   transform: translateY(-100%);
@@ -365,7 +365,7 @@ html, body {
 .fb-banner.show { transform: translateY(0); }
 .fb-banner.ok { background: var(--green); color: #fff; }
 .fb-banner.ng { background: var(--red);   color: #fff; }
-.fb-banner-icon { font-size: 26px; }
+.fb-banner-icon { font-size: 34px; }
 
 /* 見本エリアの「重ね合わせ中」ラベル */
 .overlay-label {
@@ -384,8 +384,8 @@ html, body {
 /* Result stamp（選択肢ボタン内） */
 .result-stamp {
   position: absolute;
-  top: 6px; right: 8px;
-  font-size: 22px;
+  top: 8px; right: 10px;
+  font-size: 32px;
   font-weight: 900;
   pointer-events: none;
   z-index: 10;
@@ -415,28 +415,28 @@ html, body {
   margin-bottom: 16px;
 }
 .end-pct {
-  font-size: 72px;
+  font-size: 96px;
   font-weight: 700;
   color: var(--green);
   line-height: 1;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   animation: count-up 0.6s ease;
 }
 @keyframes count-up { from { opacity:0; transform: scale(0.6); } to { opacity:1; transform: scale(1); } }
-.end-fraction { font-size: 16px; color: var(--text-muted); }
+.end-fraction { font-size: 20px; color: var(--text-muted); }
 .end-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 24px;
 }
 .stat-card {
   background: var(--bg);
   border-radius: var(--radius-sm);
-  padding: 14px;
+  padding: 18px;
 }
-.stat-val { font-size: 26px; font-weight: 700; }
-.stat-lbl { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.stat-val { font-size: 34px; font-weight: 700; }
+.stat-lbl { font-size: 15px; color: var(--text-muted); margin-top: 4px; }
 
 .history-block {
   background: var(--surface);
@@ -446,52 +446,52 @@ html, body {
   margin-bottom: 16px;
 }
 .history-head {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  padding: 10px 16px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--border);
 }
 .history-row {
   display: flex;
   align-items: center;
-  padding: 11px 16px;
-  gap: 12px;
+  padding: 14px 20px;
+  gap: 14px;
   border-bottom: 1px solid var(--border);
-  font-size: 14px;
+  font-size: 17px;
 }
 .history-row:last-child { border-bottom: none; }
-.h-date { color: var(--text-muted); width: 48px; flex-shrink: 0; }
-.h-bar { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
-.h-fill { height: 100%; background: var(--green); border-radius: 3px; }
-.h-pct { font-weight: 700; width: 44px; text-align: right; flex-shrink: 0; }
+.h-date { color: var(--text-muted); width: 56px; flex-shrink: 0; }
+.h-bar { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.h-fill { height: 100%; background: var(--green); border-radius: 4px; }
+.h-pct { font-weight: 700; width: 52px; text-align: right; flex-shrink: 0; }
 
 .retry-btn {
   width: 100%;
-  padding: 20px;
+  padding: 26px;
   border-radius: var(--radius);
   border: none;
   background: var(--green);
   color: #fff;
   font-family: inherit;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s, transform 0.12s;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 .retry-btn:hover { background: var(--green-dark); }
 .retry-btn:active { transform: scale(0.97); }
 .home-link-btn {
   width: 100%;
-  padding: 16px;
+  padding: 20px;
   border-radius: var(--radius);
   border: 1.5px solid var(--border);
   background: var(--surface);
   font-family: inherit;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.12s;
@@ -503,13 +503,13 @@ html, body {
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  padding: 48px 20px;
+  padding: 56px 24px;
   text-align: center;
   color: var(--text-muted);
 }
-.empty-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-msg { font-size: 16px; }
-.empty-sub { font-size: 13px; margin-top: 6px; }
+.empty-icon { font-size: 60px; margin-bottom: 16px; }
+.empty-msg { font-size: 20px; }
+.empty-sub { font-size: 16px; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -654,9 +654,9 @@ html, body {
   </div>
   <div class="sample-card">
     <div class="sample-card-label">見本</div>
-    <div style="position:relative;width:130px;height:130px;margin:0 auto;">
-      <canvas id="cvs-sample" width="130" height="130" style="display:block;position:absolute;top:0;left:0;"></canvas>
-      <canvas id="cvs-overlay" width="130" height="130" style="display:block;position:absolute;top:0;left:0;opacity:0;pointer-events:none;"></canvas>
+    <div style="position:relative;width:190px;height:190px;margin:0 auto;">
+      <canvas id="cvs-sample" width="190" height="190" style="display:block;position:absolute;top:0;left:0;"></canvas>
+      <canvas id="cvs-overlay" width="190" height="190" style="display:block;position:absolute;top:0;left:0;opacity:0;pointer-events:none;"></canvas>
       <div class="overlay-label" id="overlay-label">↑ 正解の形を重ねています</div>
     </div>
   </div>
@@ -836,25 +836,29 @@ const SHAPE_DEFS = [
     ctx.closePath();
   }},
 
-  // ── 凸形（土台が横長・突起が右寄りに偏り）──
+  // ── 凸形（土台横長・突起が大きく右寄り・左との差が極端）──
   { id:'CV', group:'D', draw:(ctx,s)=>{
     ctx.beginPath();
-    ctx.moveTo(s*.08,s*.58); ctx.lineTo(s*.08,s*.92);
-    ctx.lineTo(s*.92,s*.92); ctx.lineTo(s*.92,s*.58);
-    ctx.lineTo(s*.68,s*.58); ctx.lineTo(s*.68,s*.08);
-    ctx.lineTo(s*.42,s*.08); ctx.lineTo(s*.42,s*.58);
+    // 土台：全幅
+    ctx.moveTo(s*.08,s*.60); ctx.lineTo(s*.08,s*.92);
+    ctx.lineTo(s*.92,s*.92); ctx.lineTo(s*.92,s*.60);
+    // 突起：右寄り（中心より大きく右）
+    ctx.lineTo(s*.76,s*.60); ctx.lineTo(s*.76,s*.08);
+    ctx.lineTo(s*.54,s*.08); ctx.lineTo(s*.54,s*.60);
     ctx.closePath();
   }},
 
-  // ── 非対称H（横棒が上1/3・左縦棒が細く右縦棒が太い）──
+  // ── 非対称H（左縦棒：細くて短い、右縦棒：太くて長い、横棒が上1/4付近）──
   { id:'AH', group:'E', draw:(ctx,s)=>{
     ctx.beginPath();
-    ctx.moveTo(s*.10,s*.10); ctx.lineTo(s*.32,s*.10);
-    ctx.lineTo(s*.32,s*.32); ctx.lineTo(s*.68,s*.32);
-    ctx.lineTo(s*.68,s*.10); ctx.lineTo(s*.90,s*.10);
-    ctx.lineTo(s*.90,s*.90); ctx.lineTo(s*.68,s*.90);
-    ctx.lineTo(s*.68,s*.50); ctx.lineTo(s*.32,s*.50);
-    ctx.lineTo(s*.32,s*.90); ctx.lineTo(s*.10,s*.90);
+    // 左縦棒（細い・下まで届かない）
+    ctx.moveTo(s*.10,s*.10); ctx.lineTo(s*.26,s*.10);
+    ctx.lineTo(s*.26,s*.32); ctx.lineTo(s*.72,s*.32);
+    // 右縦棒（太い・全高）
+    ctx.lineTo(s*.72,s*.10); ctx.lineTo(s*.92,s*.10);
+    ctx.lineTo(s*.92,s*.90); ctx.lineTo(s*.72,s*.90);
+    ctx.lineTo(s*.72,s*.50); ctx.lineTo(s*.26,s*.50);
+    ctx.lineTo(s*.26,s*.90); ctx.lineTo(s*.10,s*.90);
     ctx.closePath();
   }},
 
@@ -868,14 +872,16 @@ const SHAPE_DEFS = [
     ctx.closePath();
   }},
 
-  // ── L＋段（逆T字の足の下に右向き突起）──
+  // ── 矢印型（横棒が左に長く張り出し、右には小さな段付き）──
   { id:'LS', group:'E', draw:(ctx,s)=>{
     ctx.beginPath();
-    ctx.moveTo(s*.10,s*.10); ctx.lineTo(s*.90,s*.10);
-    ctx.lineTo(s*.90,s*.36); ctx.lineTo(s*.56,s*.36);
-    ctx.lineTo(s*.56,s*.58); ctx.lineTo(s*.78,s*.58);
-    ctx.lineTo(s*.78,s*.90); ctx.lineTo(s*.28,s*.90);
-    ctx.lineTo(s*.28,s*.36); ctx.lineTo(s*.10,s*.36);
+    // 上横棒（左に長く・右は短い）
+    ctx.moveTo(s*.08,s*.10); ctx.lineTo(s*.76,s*.10);
+    ctx.lineTo(s*.76,s*.36); ctx.lineTo(s*.56,s*.36);
+    // 右下に小さな突起
+    ctx.lineTo(s*.56,s*.54); ctx.lineTo(s*.76,s*.54);
+    ctx.lineTo(s*.76,s*.90); ctx.lineTo(s*.32,s*.90);
+    ctx.lineTo(s*.32,s*.36); ctx.lineTo(s*.08,s*.36);
     ctx.closePath();
   }},
 ];
@@ -1067,7 +1073,7 @@ function renderQ() {
     btn.setAttribute('data-idx', i);
 
     const cvs = document.createElement('canvas');
-    const csize = cfg.choices <= 2 ? 110 : cfg.choices === 3 ? 85 : 80;
+    const csize = cfg.choices <= 2 ? 160 : cfg.choices === 3 ? 130 : 120;
     cvs.width = csize; cvs.height = csize;
     cvs.style.cssText = 'display:block;';
     drawShape(cvs, ch.def, ch.angle, ch.flip);
