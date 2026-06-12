@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>メンタルローテーション</title>
+
+<!-- ===== PWA設定 ===== -->
+<!-- manifest.jsonを読み込む（アプリ名・アイコン・色の設定書） -->
+<link rel="manifest" href="manifest.json">
+
+<!-- iOSのステータスバーの色を緑に -->
+<meta name="theme-color" content="#1D9E75">
+
+<!-- iPad/iPhoneのホーム画面追加対応 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ローテ">
+
+<!-- iOSホーム画面用アイコン -->
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -1316,5 +1331,19 @@ function renderResultsScreen() {
   `;
 }
 </script>
+
+<!-- ===== Service Worker登録 ===== -->
+<!-- Service Worker：オフラインでも動くようにする「裏方」プログラムを登録 -->
+<script>
+  if ('serviceWorker' in navigator) {
+    // ブラウザがService Workerに対応しているか確認してから登録
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('Service Worker: 登録完了'))
+        .catch((err) => console.log('Service Worker: 登録失敗', err));
+    });
+  }
+</script>
+
 </body>
 </html>

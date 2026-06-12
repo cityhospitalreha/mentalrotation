@@ -1,6 +1,6 @@
 {
   "name": "メンタルローテーション",
-  "short_name": "MR訓練",
+  "short_name": "ローテ",
   "description": "メンタルローテーション訓練アプリ",
   "start_url": "./index.html",
   "display": "standalone",
